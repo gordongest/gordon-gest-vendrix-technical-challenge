@@ -75,12 +75,12 @@ export type UpdateUser = z.infer<typeof updateUserSchema>;
  * * *******************
  */
 export const defaultValuesUser = (): CreateUser => ({
-  role: 'Astronaut',
+  role: 'Base user',
   name: {
     familyName: '',
     givenName: '',
     middleName: '',
-    suffix: undefined,
+    suffix: '',
     title: '',
   },
   email: '',

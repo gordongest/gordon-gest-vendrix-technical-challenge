@@ -1,4 +1,4 @@
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import {Controller, FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 // Schemas
@@ -6,14 +6,14 @@ import {
   createUserSchema,
   defaultValuesUser,
   updateUserSchema,
-  User,
+  User, userRoles,
 } from '../../schemas/users';
 // Hooks
 import useCreateUser from '../../hooks/users/useCreateUser';
 import useUpdateUser from '../../hooks/users/useUpdateUser';
 // Components
 import { LoadingButton } from '@mui/lab';
-import { Stack, Button, Box, Container, Typography } from '@mui/material';
+import {Stack, Button, Box, Container, Typography, MenuItem, Select} from '@mui/material';
 import StringInput from '../input/StringInput';
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -103,11 +103,60 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
               className='form'
             >
               <Stack spacing={2}>
+                <Controller
+                    render={({ field }) => (
+                        <Select {...field}>
+                          {userRoles.map(role => (
+                              <MenuItem value={role}>{role}</MenuItem>
+                          ))}
+                        </Select>
+                    )}
+                    labelId='select-role-label'
+                    id='select-role'
+                    control={control}
+                    label='Role'
+                    name='role'>
+                </Controller>
+                <Controller
+                    render={({ field }) => (
+                        <Select {...field}>
+                          <MenuItem value='Mr.'>Mr.</MenuItem>
+                          <MenuItem value='Mrs.'>Mrs.</MenuItem>
+                          <MenuItem value='Dr.'>Dr.</MenuItem>
+                        </Select>
+                    )}
+                    labelId='select-title-label'
+                    id='select-title'
+                    control={control}
+                    label='Title'
+                    name='name.title'>
+                </Controller>
                 <StringInput
-                  fieldName='name.middleName'
-                  label='Middle Name'
-                  control={control}
+                    fieldName='name.givenName'
+                    label='First Name'
+                    control={control}
                 />
+                <StringInput
+                    fieldName='name.middleName'
+                    label='Middle Name'
+                    control={control}
+                />
+                <StringInput
+                    fieldName='name.familyName'
+                    label='Last Name'
+                    control={control}
+                />
+                <StringInput
+                    fieldName='email'
+                    label='Email'
+                    control={control}
+                />
+                <StringInput
+                    fieldName='phone'
+                    label='Phone'
+                    control={control}
+                />
+
               </Stack>
 
               {/* Submit Buttons */}
