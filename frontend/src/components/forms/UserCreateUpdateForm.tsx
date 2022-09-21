@@ -104,6 +104,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
               className='form'
             >
               <Stack spacing={2}>
+                {/* this linting error appears to be a regression bug introduced in 6.13.0 */}
                 <Controller
                     render={({ field }) => (
                         <Select {...field}>
