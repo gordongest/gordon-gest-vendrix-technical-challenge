@@ -27,6 +27,7 @@ const userRoleSchema = z.enum(userRoles);
 export type UserRole = z.infer<typeof userRoleSchema>;
 
 export const userSuffixes = [
+  '',
   'Sr.',
   'Jr.',
   'III',
@@ -88,7 +89,7 @@ export const defaultValuesUser = (): CreateUser => ({
     familyName: '',
     givenName: '',
     middleName: '',
-    suffix: undefined,
+    suffix: '',
     title: '',
   },
   email: '',

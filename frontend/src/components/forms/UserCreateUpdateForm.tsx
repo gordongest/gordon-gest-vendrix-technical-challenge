@@ -1,6 +1,7 @@
 import {Controller, FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { v4 as uuid } from 'uuid'
 // Schemas
 import {
   createUserSchema,
@@ -109,7 +110,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
                     render={({ field }) => (
                         <Select {...field}>
                           {userRoles.map(role => (
-                              <MenuItem value={role}>{role}</MenuItem>
+                              <MenuItem value={role} key={role}>{role}</MenuItem>
                           ))}
                         </Select>
                     )}
@@ -152,7 +153,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
                     render={({ field }) => (
                         <Select {...field}>
                           {userSuffixes.map(suffix => (
-                              <MenuItem value={suffix}>{suffix}</MenuItem>
+                              <MenuItem value={suffix} key={suffix}>{suffix}</MenuItem>
                           ))}
                         </Select>
                     )}
