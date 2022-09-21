@@ -33,13 +33,14 @@ export const User = z.object({
   _id: z.string().uuid(),
   role: userRoleSchema,
   name: z.object({
-    familyName: z.string().min(10).max(3000),
-    givenName: z.string().min(10).max(2000),
+    familyName: z.string().min(2, { message: "Family name must be at least 2 characters" }).max(100),
+    givenName: z.string().min(2, { message: "Given name must be at least 2 characters" }).max(100),
     middleName: z.string().optional(),
     suffix: z.string().optional(),
     title: z.string().optional(),
   }),
   email: z.string().email(),
+  phone: z.string().min(10, { message: "Phone number must be 10 digits"}).max(10, { message: "Phone number must be 10 digits"}).optional(),
 });
 export type User = z.infer<typeof User>;
 
