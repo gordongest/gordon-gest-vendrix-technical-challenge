@@ -26,6 +26,14 @@ export const userRoles = [
 const userRoleSchema = z.enum(userRoles);
 export type UserRole = z.infer<typeof userRoleSchema>;
 
+export const userSuffixes = [
+  'Sr.',
+  'Jr.',
+  'III',
+] as const;
+const userSuffixSchema = z.enum(userSuffixes);
+export type UserSuffix = z.infer<typeof userSuffixSchema>;
+
 /**
  * @summary     Schema for a "user" entity type
  */
@@ -36,7 +44,7 @@ export const User = z.object({
     familyName: z.string().min(2, { message: "Last name must be at least 2 characters" }).max(100),
     givenName: z.string().min(2, { message: "First name must be at least 2 characters" }).max(100),
     middleName: z.string().optional(),
-    suffix: z.string().optional(),
+    suffix: userSuffixSchema.optional(),
     title: z.string().optional(),
   }),
   email: z.string().email(),
@@ -80,7 +88,7 @@ export const defaultValuesUser = (): CreateUser => ({
     familyName: '',
     givenName: '',
     middleName: '',
-    suffix: '',
+    suffix: undefined,
     title: '',
   },
   email: '',

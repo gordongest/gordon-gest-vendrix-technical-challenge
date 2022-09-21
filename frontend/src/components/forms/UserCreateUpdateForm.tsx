@@ -6,7 +6,7 @@ import {
   createUserSchema,
   defaultValuesUser,
   updateUserSchema,
-  User, userRoles,
+  User, userRoles, userSuffixes
 } from '../../schemas/users';
 // Hooks
 import useCreateUser from '../../hooks/users/useCreateUser';
@@ -61,6 +61,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
 
   // HANDLERS
   const handleSave: SubmitHandler<User> = (data) => {
+    console.log(data)
     try {
       if (user) {
         console.info('updating user...');
@@ -146,6 +147,20 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
                     label='Last Name'
                     control={control}
                 />
+                <Controller
+                    render={({ field }) => (
+                        <Select {...field}>
+                          {userSuffixes.map(suffix => (
+                              <MenuItem value={suffix}>{suffix}</MenuItem>
+                          ))}
+                        </Select>
+                    )}
+                    labelId='select-suffix-label'
+                    id='select-suffix'
+                    control={control}
+                    label='Suffix'
+                    name='name.suffix'>
+                </Controller>
                 <StringInput
                     fieldName='email'
                     label='Email'
