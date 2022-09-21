@@ -33,8 +33,8 @@ export const User = z.object({
   _id: z.string().uuid(),
   role: userRoleSchema,
   name: z.object({
-    familyName: z.string().min(2, { message: "Family name must be at least 2 characters" }).max(100),
-    givenName: z.string().min(2, { message: "Given name must be at least 2 characters" }).max(100),
+    familyName: z.string().min(2, { message: "Last name must be at least 2 characters" }).max(100),
+    givenName: z.string().min(2, { message: "First name must be at least 2 characters" }).max(100),
     middleName: z.string().optional(),
     suffix: z.string().optional(),
     title: z.string().optional(),
@@ -55,6 +55,7 @@ export const createUserSchema = User.pick({
   role: true,
   name: true,
   email: true,
+  phone: true
 });
 export type CreateUser = z.infer<typeof createUserSchema>;
 
@@ -62,6 +63,7 @@ export const updateUserSchema = User.pick({
   role: true,
   name: true,
   email: true,
+  phone: true
 }).partial();
 export type UpdateUser = z.infer<typeof updateUserSchema>;
 
@@ -77,9 +79,10 @@ export const defaultValuesUser = (): CreateUser => ({
   name: {
     familyName: '',
     givenName: '',
-    middleName: undefined,
+    middleName: '',
     suffix: undefined,
-    title: undefined,
+    title: '',
   },
   email: '',
+  phone: ''
 });
