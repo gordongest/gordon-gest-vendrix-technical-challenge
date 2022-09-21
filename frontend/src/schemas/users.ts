@@ -49,7 +49,7 @@ export const User = z.object({
     title: z.string().optional(),
   }),
   email: z.string().email(),
-  phone: z.string().min(10, { message: "Phone number must be 10 digits"}).max(10, { message: "Phone number must be 10 digits"}).optional(),
+  phone: z.string().length(10, { message: "Phone number must be 10 digits" }),
 });
 export type User = z.infer<typeof User>;
 
@@ -93,5 +93,5 @@ export const defaultValuesUser = (): CreateUser => ({
     title: '',
   },
   email: '',
-  phone: ''
+  phone: '',
 });
