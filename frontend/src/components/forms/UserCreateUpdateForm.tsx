@@ -107,7 +107,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
             >
               {/* Form Fields */}
               <Stack spacing={2}>
-                <Grid container lg spacing={2} sx={{ justifyContent: "flex-start"}}>
+                <Grid container spacing={2} sx={{ justifyContent: "flex-start"}}>
                   <Grid item lg={12}>
                     {/* this linting error appears to be a regression bug introduced in 6.13.0 */}
                     <Controller
