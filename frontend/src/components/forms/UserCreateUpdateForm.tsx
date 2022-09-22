@@ -15,7 +15,7 @@ import useCreateUser from '../../hooks/users/useCreateUser';
 import useUpdateUser from '../../hooks/users/useUpdateUser';
 // Components
 import { LoadingButton } from '@mui/lab';
-import {Stack, Button, Box, Container, Typography, MenuItem, Select} from '@mui/material';
+import {Stack, Button, Box, Container, Typography, MenuItem, Select, Grid} from '@mui/material';
 import StringInput from '../input/StringInput';
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -106,75 +106,99 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
               className='form'
             >
               <Stack spacing={2}>
-                {/* this linting error appears to be a regression bug introduced in 6.13.0 */}
-                <Controller
-                    render={({ field }) => (
-                        <Select {...field}>
-                          {userRoles.map(role => (
-                              <MenuItem value={role} key={role}>{role}</MenuItem>
-                          ))}
-                        </Select>
-                    )}
-                    labelId='select-role-label'
-                    id='select-role'
-                    control={control}
-                    label='Role'
-                    name='role'>
-                </Controller>
-                <Controller
-                    render={({ field }) => (
-                        <Select {...field}>
-                          {userTitles.map(title => (
-                              <MenuItem value={title} key={title}>{title}</MenuItem>
-                          ))}
-                        </Select>
-                    )}
-                    labelId='select-title-label'
-                    id='select-title'
-                    control={control}
-                    label='Title'
-                    name='name.title'>
-                </Controller>
-                <StringInput
-                    fieldName='name.givenName'
-                    label='First Name'
-                    control={control}
-                />
-                <StringInput
-                    fieldName='name.middleName'
-                    label='Middle Name'
-                    control={control}
-                />
-                <StringInput
-                    fieldName='name.familyName'
-                    label='Last Name'
-                    control={control}
-                />
-                <Controller
-                    render={({ field }) => (
-                        <Select {...field}>
-                          {userSuffixes.map(suffix => (
-                              <MenuItem value={suffix} key={suffix}>{suffix}</MenuItem>
-                          ))}
-                        </Select>
-                    )}
-                    labelId='select-suffix-label'
-                    id='select-suffix'
-                    control={control}
-                    label='Suffix'
-                    name='name.suffix'>
-                </Controller>
-                <StringInput
-                    fieldName='email'
-                    label='Email'
-                    control={control}
-                />
-                <StringInput
-                    fieldName='phone'
-                    label='Phone'
-                    control={control}
-                />
+                <Grid container lg spacing={2} sx={{ justifyContent: "flex-start"}}>
+                  <Grid item lg={12}>
+                    {/* this linting error appears to be a regression bug introduced in 6.13.0 */}
+                    <Controller
+                        render={({ field }) => (
+                            <Select fullWidth {...field}>
+                              {userRoles.map(role => (
+                                  <MenuItem value={role} key={role}>{role}</MenuItem>
+                              ))}
+                            </Select>
+                        )}
+                        labelId='select-role-label'
+                        id='select-role'
+                        control={control}
+                        label='Role'
+                        name='role'>
+                    </Controller>
+                  </Grid>
 
+                  <Grid item lg={2}>
+                    <Controller
+                        render={({ field }) => (
+                            <Select fullWidth {...field}>
+                              {userTitles.map(title => (
+                                  <MenuItem value={title} key={title}>{title}</MenuItem>
+                              ))}
+                            </Select>
+                        )}
+                        labelId='select-title-label'
+                        id='select-title'
+                        control={control}
+                        label='Title'
+                        name='name.title'>
+                    </Controller>
+                  </Grid>
+
+                  <Grid item lg={4}>
+                    <StringInput
+                        fieldName='name.givenName'
+                        label='First Name'
+                        control={control}
+                    />
+                  </Grid>
+
+                  <Grid item lg={1}>
+                    <StringInput
+                        fieldName='name.middleName'
+                        label='M.I.'
+                        control={control}
+                    />
+                  </Grid>
+
+                  <Grid item lg={4}>
+                    <StringInput
+                        fieldName='name.familyName'
+                        label='Last Name'
+                        control={control}
+                    />
+                  </Grid>
+
+                  <Grid item lg={1}>
+                    <Controller
+                        render={({ field }) => (
+                            <Select fullWidth {...field}>
+                              {userSuffixes.map(suffix => (
+                                  <MenuItem value={suffix} key={suffix}>{suffix}</MenuItem>
+                              ))}
+                            </Select>
+                        )}
+                        labelId='select-suffix-label'
+                        id='select-suffix'
+                        control={control}
+                        label='Suffix'
+                        name='name.suffix'>
+                    </Controller>
+                  </Grid>
+
+                  <Grid item lg={6}>
+                    <StringInput
+                        fieldName='email'
+                        label='Email'
+                        control={control}
+                    />
+                  </Grid>
+
+                  <Grid item lg={6}>
+                    <StringInput
+                      fieldName='phone'
+                      label='Phone'
+                      control={control}
+                    />
+                  </Grid>
+                </Grid>
               </Stack>
 
               {/* Submit Buttons */}

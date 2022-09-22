@@ -19,7 +19,7 @@ interface Props {
  *        MUI TextField examples: https://mui.com/material-ui/react-text-field/
  */
 export default function StringInput({
-  size = 'small',
+  size = 'medium',
   fieldName,
   label,
   control,

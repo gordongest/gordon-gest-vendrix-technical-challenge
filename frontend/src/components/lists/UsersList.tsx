@@ -71,7 +71,7 @@ function UsersListItem({ user }: UsersListItemProps) {
               {/* Name & Role */}
               <Grid item lg>
                 <Typography variant="h5">
-                  {user.name.title && user.name.title} {user.name.givenName} {user.name.middleName} {user.name.familyName} {user.name.suffix}
+                  {user.name.title} {user.name.givenName} {user.name.middleName} {user.name.familyName} {user.name.suffix}
                 </Typography>
                 <Typography variant="subtitle1">{user.role}</Typography>
               </Grid>
