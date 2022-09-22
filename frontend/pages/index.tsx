@@ -27,36 +27,7 @@ const {
   users: { getAll },
 } = VENDRIX_API;
 
-// ----------------------------------------------------------------------
-
-const sampleUsers = [
-  {
-    _id: '888844446666222299457582989',
-    role: 'Administrator',
-    name: {
-      familyName: 'Scrublic',
-      givenName: 'John',
-      middleName: 'Q.',
-      suffix: 'III',
-      title: '',
-    },
-    email: 'johnqscrublic@email.com',
-    phone: '8905671234'
-  },
-  {
-    _id: '888844446666222299457582990',
-    role: 'Astronaut',
-    name: {
-      familyName: 'Public',
-      givenName: 'Jane',
-      middleName: 'G.',
-      suffix: '',
-      title: 'Dr.',
-    },
-    email: 'janegpublic@email.com',
-    phone: '8905671234'
-  }
-]
+// ---------------------------------------------------------------Ø-------
 
 // ***** Prefetch data to page ***** //
 // * Server Side Rendering * //
@@ -116,9 +87,9 @@ const Home: NextPage = () => {
           <CardContent>
             {allUsersQuery?.data?.data ? (
               <UsersList users={allUsersQuery.data.data} />
-            ) : (
-              <UsersList users={sampleUsers} />
-            )}
+              )
+                : null
+            }
           </CardContent>
         </Card>
       </Stack>

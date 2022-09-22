@@ -31,7 +31,6 @@ export const VENDRIX_API = {
       mutationOptions: <TData extends User>(queryClient: QueryClient) => ({
         onMutate: async (newData: TData) => {
           console.log('React query "onMutate" callback', { newData });
-          window.localStorage.setItem('users', JSON.stringify(newData));
         },
         onError: (error: Error, _variables: TData, rollback: any) => {
           if (rollback) {
