@@ -27,7 +27,7 @@ const {
   users: { getAll },
 } = VENDRIX_API;
 
-// ---------------------------------------------------------------Ø-------
+// ----------------------------------------------------------------------
 
 // ***** Prefetch data to page ***** //
 // * Server Side Rendering * //
@@ -87,9 +87,7 @@ const Home: NextPage = () => {
           <CardContent>
             {allUsersQuery?.data?.data ? (
               <UsersList users={allUsersQuery.data.data} />
-              )
-                : null
-            }
+            ) : null}
           </CardContent>
         </Card>
       </Stack>
