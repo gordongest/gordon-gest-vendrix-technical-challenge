@@ -1,13 +1,14 @@
 import {Controller, FormProvider, SubmitHandler, useForm} from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { v4 as uuid } from 'uuid'
 // Schemas
 import {
   createUserSchema,
   defaultValuesUser,
   updateUserSchema,
-  User, userRoles, userSuffixes
+  User, userRoles,
+  userTitles,
+  userSuffixes
 } from '../../schemas/users';
 // Hooks
 import useCreateUser from '../../hooks/users/useCreateUser';
@@ -123,9 +124,9 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
                 <Controller
                     render={({ field }) => (
                         <Select {...field}>
-                          <MenuItem value='Mr.'>Mr.</MenuItem>
-                          <MenuItem value='Mrs.'>Mrs.</MenuItem>
-                          <MenuItem value='Dr.'>Dr.</MenuItem>
+                          {userTitles.map(title => (
+                              <MenuItem value={title} key={title}>{title}</MenuItem>
+                          ))}
                         </Select>
                     )}
                     labelId='select-title-label'

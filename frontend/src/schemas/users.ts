@@ -26,6 +26,15 @@ export const userRoles = [
 const userRoleSchema = z.enum(userRoles);
 export type UserRole = z.infer<typeof userRoleSchema>;
 
+export const userTitles = [
+  '',
+  'Mr.',
+  'Mrs.',
+  'Dr.',
+] as const;
+const userTitleSchema = z.enum(userTitles);
+export type UserTitle = z.infer<typeof userTitleSchema>;
+
 export const userSuffixes = [
   '',
   'Sr.',
@@ -46,7 +55,7 @@ export const User = z.object({
     givenName: z.string().min(2, { message: "First name must be at least 2 characters" }).max(100),
     middleName: z.string().optional(),
     suffix: userSuffixSchema.optional(),
-    title: z.string().optional(),
+    title: userTitleSchema.optional(),
   }),
   email: z.string().email(),
   phone: z.string().length(10, { message: "Phone number must be 10 digits" }),
