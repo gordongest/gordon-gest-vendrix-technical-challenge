@@ -75,7 +75,6 @@ function UsersListItem({ user }: UsersListItemProps) {
                 </Typography>
                 <Typography variant="subtitle1">{user.role}</Typography>
               </Grid>
-              {/* End name */}
 
               {/* Contact Info */}
               <Grid item lg>
@@ -89,9 +88,7 @@ function UsersListItem({ user }: UsersListItemProps) {
                 </Typography>
                 <Typography variant="body1">{user.phone}</Typography>
               </Grid>
-              {/* End info */}
             </Grid>
-          {/* End text */}
           </Grid>
         </Grid>
       </CardContent>

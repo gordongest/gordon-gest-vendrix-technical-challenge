@@ -105,6 +105,7 @@ export default function UserCreateUpdateForm({ user, onClose }: Props) {
               onSubmit={handleSubmit((data) => handleSave(data))}
               className='form'
             >
+              {/* Form Fields */}
               <Stack spacing={2}>
                 <Grid container lg spacing={2} sx={{ justifyContent: "flex-start"}}>
                   <Grid item lg={12}>
