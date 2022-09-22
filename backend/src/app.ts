@@ -1,5 +1,8 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
+import fetch from 'cross-fetch';
+import { gql, ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
+import gqlTag from "graphql-tag";
 // -------------------------------------------------------------
 // -------------------------------------------------------------
 
@@ -19,7 +22,28 @@ let redisClient: any;
   await redisClient.connect();
 })();
 
+const graphQLClient = new ApolloClient({
+  // uri: 'https://api.us.test.highnoteplatform.com/graphql',
+  cache: new InMemoryCache(),
+  link: new HttpLink({ credentials: "same-origin", uri: `http://localhost:3001/graphql`, fetch }),
+  // headers: {
+  //   // authorization: process.env.HIGHNOTE_API_KEY,
+  // },
+});
+
 app.use('/', async (req: Request, res: Response, next: NextFunction) => {
+  const testQuery = {
+    query: gql`
+      {
+        user(id: "26") {
+          firstName
+        }
+      }
+    `
+  }
+  const results = await graphQLClient.query(testQuery);
+  console.log("graphQL query results:", results.data);
+
   res.set('Access-Control-Allow-Origin', '*');
 
   if (req.method === 'OPTIONS') {
@@ -64,6 +88,7 @@ app.use('/', async (req: Request, res: Response, next: NextFunction) => {
       });
     }
   }
+  // can't make it here because all requests are consumed and sending responses
   next();
 });
 
