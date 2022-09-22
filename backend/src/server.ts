@@ -1,6 +1,8 @@
 import http from 'http';
+import dotenv from 'dotenv'
 import app from './app';
 // -------------------------------------------------------------
+dotenv.config();
 // -------------------------------------------------------------
 
 // Connect to MongoDB and Start Server

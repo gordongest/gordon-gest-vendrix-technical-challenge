@@ -2,10 +2,12 @@ import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
 import fetch from 'cross-fetch';
 import { gql, ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
-import gqlTag from "graphql-tag";
+import gqlTag from 'graphql-tag';
+import dotenv from 'dotenv'
 // -------------------------------------------------------------
-// -------------------------------------------------------------
+dotenv.config();
 
+// -------------------------------------------------------------
 const app = express();
 
 // Body Parser
@@ -23,12 +25,12 @@ let redisClient: any;
 })();
 
 const graphQLClient = new ApolloClient({
-  // uri: 'https://api.us.test.highnoteplatform.com/graphql',
   cache: new InMemoryCache(),
-  link: new HttpLink({ credentials: "same-origin", uri: `http://localhost:3001/graphql`, fetch }),
-  // headers: {
-  //   // authorization: process.env.HIGHNOTE_API_KEY,
-  // },
+  link: new HttpLink({ uri: 'https://api.us.test.highnoteplatform.com/graphql', fetch }),
+  headers: {
+    // TS thinks this might be undefined, possible to create an interface and parser
+    authorization: process.env.HIGHNOTE_API_KEY!,
+  },
 });
 
 app.use('/', async (req: Request, res: Response, next: NextFunction) => {
