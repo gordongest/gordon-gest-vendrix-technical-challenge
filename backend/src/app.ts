@@ -1,4 +1,4 @@
-import express, { NextFunction, Response, Request } from 'express';
+import express, {NextFunction, Response, Request, ErrorRequestHandler} from 'express';
 import { createClient } from 'redis';
 import { gql, GraphQLClient } from 'graphql-request'
 // import gql from 'graphql-tag';
@@ -195,15 +195,14 @@ app.use(
         paymentCardId: req.params.cardId
       }
 
-      // pass query and variables to client request, await response
-      const results = await graphQLClient.request(query, variables);
-
-      // return successful response
-      if (results) {
+      try {
+        // pass query and variables to client request, await response
+        const results = await graphQLClient.request(query, variables);
         return res.status(200).send(results);
+      } catch (err) {
+        console.log(err.message);
+        return res.send({ message: err.message })
       }
-
-      next();
     }
 );
 
