@@ -147,19 +147,24 @@ Use the below checklist to help keep track of your completed work.
 
 - [ ] In your own words, how could this form be optimized? Think in terms of both performance and UI/UX.
 
-  > [YOUR RESPONSE]
+  > I am not familiar enough with react-hook-form or react-query to know what performance optimizations may be possible, but from a 
+  > UI/UX perspective I worked to make the most efficient use of space and provide a natural flow of fields that the user would find logical.
+  > The only element of the form that I am unclear about is the 'Cancel' button, which does not seem to have much of a function in this 
+  > isolated environment. I imagine that if this form were implemented as a modal, it would close the modal and reset the state of the form, 
+  > but it is not possible to know without further context.
 
 - [ ] There is a way to optimize the "StringInput" component (src/components/input/StringInput.tsx) using a React feature. What React feature/s would you use to optimize the component and reduce rerenders?
 
-  > [YOUR RESPONSE]
+  > This could be a good use case for wrapping the component in React.memo(), which should enable each StringInput to execute re-renders only when their props have changed.
 
 - [ ] What STEM subject/research/product excites you most and why?
 
-  > [YOUR RESPONSE]
+  > As a former professional musician and present hobbyist photographer, I have spent most of my life on the opposite side of the coin from STEM. However, I find the recent
+  > developments in AI-generated art fascinating, and am curious how long it will be before all of the "old masters" can be indistinguishably replicated.
 
 - [ ] Any other thoughts?
 
-  > [YOUR RESPONSE]
+  > I enjoyed this challenge, and found it both more engaging and educational than whiteboarding algorithms!
 
   <br>
 
