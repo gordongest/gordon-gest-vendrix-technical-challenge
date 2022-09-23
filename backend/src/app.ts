@@ -1,9 +1,9 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
 import fetch from 'cross-fetch';
-import { gql, ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
+import { gql, request, GraphQLClient } from 'graphql-request'
 import gqlTag from 'graphql-tag';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 // -------------------------------------------------------------
 dotenv.config();
 
@@ -24,27 +24,23 @@ let redisClient: any;
   await redisClient.connect();
 })();
 
-const graphQLClient = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: new HttpLink({ uri: 'https://api.us.test.highnoteplatform.com/graphql', fetch }),
+const graphQLClient = new GraphQLClient('https://api.us.test.highnoteplatform.com/graphql', {
   headers: {
+    contentType: 'application/json',
     // TS thinks this might be undefined, possible to create an interface and parser
-    authorization: process.env.HIGHNOTE_API_KEY!,
-  },
+    authorization: 'Basic c2tfdGVzdF85dHlYdk53VDlmcG5raEExdWdRRDZnU0duanp1aGRlNEhMZ1VGQVdKcmdWRlRlaWsyVVlvUmF4azJvcm9Qbng5NWloeFR1bnJhaVZ5M2JDRU41Og==',
+  }
 });
 
 app.use('/', async (req: Request, res: Response, next: NextFunction) => {
-  const testQuery = {
-    query: gql`
-      {
-        user(id: "26") {
-          firstName
-        }
+  /* GraphQLClient query */
+  const testQuery = gql`
+      query Ping {
+        ping
       }
     `
-  }
-  const results = await graphQLClient.query(testQuery);
-  console.log("graphQL query results:", results.data);
+  const results = await graphQLClient.request(testQuery);
+  console.log("Highnote test query results:", results);
 
   res.set('Access-Control-Allow-Origin', '*');
 
