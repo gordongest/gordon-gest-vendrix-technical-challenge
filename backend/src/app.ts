@@ -1,6 +1,7 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
 import { gql, GraphQLClient } from 'graphql-request'
+import getPaymentCardById from './graphql/GetPaymentCardById.graphql';
 import dotenv from 'dotenv';
 // -------------------------------------------------------------
 dotenv.config();
