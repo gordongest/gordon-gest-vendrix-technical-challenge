@@ -1,7 +1,6 @@
-import express, {NextFunction, Response, Request, ErrorRequestHandler} from 'express';
+import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
 import { gql, GraphQLClient } from 'graphql-request'
-// import gql from 'graphql-tag';
 import dotenv from 'dotenv';
 // -------------------------------------------------------------
 dotenv.config();
