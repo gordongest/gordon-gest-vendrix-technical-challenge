@@ -44,6 +44,9 @@ app.use('/', async (req: Request, res: Response, next: NextFunction) => {
   } else if (req.method === 'GET') {
     // fork here
     // check some property of /cards request and call next()
+    if (req.path.includes('cards')) {
+      return next();
+    }
     const cacheResults = await redisClient.get('users');
     if (cacheResults) {
       console.log('cached users', { data: JSON.parse(cacheResults) });
@@ -197,7 +200,7 @@ app.use(
 
       // return successful response
       if (results) {
-        res.status(200).send(results);
+        return res.status(200).send(results);
       }
 
       next();
