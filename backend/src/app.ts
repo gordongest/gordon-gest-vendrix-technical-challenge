@@ -1,7 +1,7 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
-import { gql, request, GraphQLClient } from 'graphql-request'
-import gqlTag from 'graphql-tag';
+import { gql, GraphQLClient } from 'graphql-request'
+// import gql from 'graphql-tag';
 import dotenv from 'dotenv';
 // -------------------------------------------------------------
 dotenv.config();
@@ -27,19 +27,137 @@ const graphQLClient = new GraphQLClient('https://api.us.test.highnoteplatform.co
   headers: {
     contentType: 'application/json',
     // TS thinks this might be undefined, possible to create an interface and parser
-    authorization: Buffer.from(process.env.HIGHNOTE_API_KEY!).toString('utf8'),
+    authorization: `Basic ${Buffer.from(process.env.HIGHNOTE_API_KEY!).toString('base64')}`,
   }
 });
 
-app.use('/', async (req: Request, res: Response, next: NextFunction) => {
-  /* GraphQLClient query */
-  const testQuery = gql`
-      query Ping {
-        ping
+app.use(
+    '/cards/:cardId',
+    async (req: Request, res: Response, next: NextFunction) => {
+      console.log('cardId:', req.params.cardId)
+      // make request to GraphQL resource
+      // if successful, return results as JSON
+
+      // define query
+      // TODO: import query
+      const query = gql`
+        query GetPaymentCardById($paymentCardId: ID!) {
+          node(id: $paymentCardId) {
+            ... on PaymentCard {
+              id
+              bin
+              last4
+              expirationDate
+              network
+              status
+              formFactor
+              restrictedDetails {
+                ... on PaymentCardRestrictedDetails {
+                  number
+                  cvv
+                }
+                ... on AccessDeniedError {
+                  message
+                }
+              }
+              physicalPaymentCardOrders {
+                id
+                paymentCardShipment {
+                  courier {
+                    method
+                    signatureRequiredOnDelivery
+                    tracking {
+                      trackingNumber
+                      actualShipDateLocal
+                    }
+                  }
+                  requestedShipDate
+                  deliveryDetails {
+                    name {
+                      middleName
+                      givenName
+                      familyName
+                      suffix
+                      title
+                    }
+                    companyName
+                    address {
+                      streetAddress
+                      extendedAddress
+                      postalCode
+                      region
+                      locality
+                      countryCodeAlpha3
+                    }
+                  }
+                  senderDetails {
+                    name {
+                      givenName
+                      middleName
+                      familyName
+                      suffix
+                      title
+                    }
+                    companyName
+                    address {
+                      streetAddress
+                      extendedAddress
+                      postalCode
+                      region
+                      locality
+                      countryCodeAlpha3
+                    }
+                  }
+                }
+                orderState {
+                  status
+                }
+                cardPersonalization {
+                  textLines {
+                    line1
+                    line2
+                  }
+                }
+                createdAt
+                updatedAt
+                stateHistory {
+                  previousStatus
+                  newStatus
+                  createdAt
+                }
+              }
+            }
+          }
+        }
+      `
+
+      // define variables
+      const variables = {
+        paymentCardId: req.params.cardId
       }
-    `
-  const results = await graphQLClient.request(testQuery);
-  console.log("Highnote test query results:", results);
+
+      // pass query and variables to client request, await response
+      const results = await graphQLClient.request(query, variables);
+
+      // return successful response
+      if (results) {
+        res.status(200).send(results);
+      }
+
+      next();
+    }
+);
+
+// app.use is consuming all requests even when other endpoints are defined first, may need to narrow scope or handle methods directly
+app.use('/', async (req: Request, res: Response, next: NextFunction) => {
+  // /* GraphQLClient test query */
+  // const testQuery = gql`
+  //     query Ping {
+  //       ping
+  //     }
+  //   `
+  // const results = await graphQLClient.request(testQuery);
+  // console.log("Highnote test query results:", results);
 
   res.set('Access-Control-Allow-Origin', '*');
 
@@ -94,11 +212,5 @@ app.use('/', async (req: Request, res: Response, next: NextFunction) => {
  *
  * TODO: implement endpoint
  */
-app.use(
-  '/cards/:cardId',
-  async (req: Request, res: Response, next: NextFunction) => {
-    next();
-  }
-);
 
 export default app;
