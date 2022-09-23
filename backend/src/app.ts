@@ -1,6 +1,5 @@
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
-import fetch from 'cross-fetch';
 import { gql, request, GraphQLClient } from 'graphql-request'
 import gqlTag from 'graphql-tag';
 import dotenv from 'dotenv';
@@ -28,7 +27,7 @@ const graphQLClient = new GraphQLClient('https://api.us.test.highnoteplatform.co
   headers: {
     contentType: 'application/json',
     // TS thinks this might be undefined, possible to create an interface and parser
-    authorization: 'Basic c2tfdGVzdF85dHlYdk53VDlmcG5raEExdWdRRDZnU0duanp1aGRlNEhMZ1VGQVdKcmdWRlRlaWsyVVlvUmF4azJvcm9Qbng5NWloeFR1bnJhaVZ5M2JDRU41Og==',
+    authorization: Buffer.from(process.env.HIGHNOTE_API_KEY!).toString('utf8'),
   }
 });
 
