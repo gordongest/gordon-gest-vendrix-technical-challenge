@@ -1,11 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { NextFunction, Response, Request } from 'express';
 import { createClient } from 'redis';
-import { gql, GraphQLClient } from 'graphql-request'
-import getPaymentCardById from './graphql/GetPaymentCardById.graphql';
-import dotenv from 'dotenv';
-// -------------------------------------------------------------
-dotenv.config();
-
+import { GraphQLClient } from 'graphql-request';
+import getPaymentCardById from './graphql/getPaymentCardById';
 // -------------------------------------------------------------
 const app = express();
 
@@ -97,99 +95,6 @@ app.use(
       // make request to GraphQL resource
       // if successful, return results as JSON
 
-      // define query
-      // TODO: import query
-      const query = gql`
-        query GetPaymentCardById($paymentCardId: ID!) {
-          node(id: $paymentCardId) {
-            ... on PaymentCard {
-              id
-              bin
-              last4
-              expirationDate
-              network
-              status
-              formFactor
-              restrictedDetails {
-                ... on PaymentCardRestrictedDetails {
-                  number
-                  cvv
-                }
-                ... on AccessDeniedError {
-                  message
-                }
-              }
-              physicalPaymentCardOrders {
-                id
-                paymentCardShipment {
-                  courier {
-                    method
-                    signatureRequiredOnDelivery
-                    tracking {
-                      trackingNumber
-                      actualShipDateLocal
-                    }
-                  }
-                  requestedShipDate
-                  deliveryDetails {
-                    name {
-                      middleName
-                      givenName
-                      familyName
-                      suffix
-                      title
-                    }
-                    companyName
-                    address {
-                      streetAddress
-                      extendedAddress
-                      postalCode
-                      region
-                      locality
-                      countryCodeAlpha3
-                    }
-                  }
-                  senderDetails {
-                    name {
-                      givenName
-                      middleName
-                      familyName
-                      suffix
-                      title
-                    }
-                    companyName
-                    address {
-                      streetAddress
-                      extendedAddress
-                      postalCode
-                      region
-                      locality
-                      countryCodeAlpha3
-                    }
-                  }
-                }
-                orderState {
-                  status
-                }
-                cardPersonalization {
-                  textLines {
-                    line1
-                    line2
-                  }
-                }
-                createdAt
-                updatedAt
-                stateHistory {
-                  previousStatus
-                  newStatus
-                  createdAt
-                }
-              }
-            }
-          }
-        }
-      `
-
       // define variables
       const variables = {
         paymentCardId: req.params.cardId
@@ -197,7 +102,7 @@ app.use(
 
       try {
         // pass query and variables to client request, await response
-        const results = await graphQLClient.request(query, variables);
+        const results = await graphQLClient.request(getPaymentCardById, variables);
         return res.status(200).send(results);
       } catch (err) {
         console.log(err.message);
